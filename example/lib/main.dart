@@ -16,66 +16,101 @@ void main() {
 
 //主屏ui
 void defaultMain() {
-  runApp(MyApp(
-    isViceScreen: false,
-  ));
+  runApp(MainApp());
 }
 
 //副屏ui
 void viceScreenMain() {
-  runApp(MyApp(
-    isViceScreen: true,
-  ));
+  runApp(SubApp());
 }
 
-class MyApp extends StatefulWidget {
-  final bool isViceScreen;
-
-  MyApp({this.isViceScreen = false}) : super();
+//主屏widget
+class MainApp extends StatefulWidget {
+  const MainApp({Key key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _MainAppState createState() => _MainAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  String message;
+class _MainAppState extends State<MainApp> {
+  String receiveData = 'null';
 
   @override
   void initState() {
     super.initState();
-    message =
-        widget.isViceScreen ? 'this is vice screen' : 'this is main screen';
-
-    if (widget.isViceScreen) {
-      SubScreenPlugin.viceStream.listen((event) {
-        setState(() {
-          message = event.arguments.toString();
-        });
+    SubScreenPlugin.mainStream.listen((event) {
+      setState(() {
+        receiveData = event.arguments.toString();
       });
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    //隐藏状态栏和系统底部栏
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('主屏'),
         ),
         body: Container(
-          color: widget.isViceScreen ? Colors.green : Colors.red,
+          color: Colors.greenAccent.withAlpha(50),
           child: Center(
-            child: Text(message),
+            child: Text('接收到的副屏数据为：$receiveData'),
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Text('发送数据给副屏'),
           onPressed: () {
-            final randomInt = Random().nextInt(100);
+            final randomData = Random().nextInt(100).toString();
             SubScreenPlugin.sendMsgToViceScreen("text",
-                params: {"num": randomInt.toString()});
+                params: {"num": randomData});
+          },
+        ),
+      ),
+    );
+  }
+}
+
+//副屏widget
+class SubApp extends StatefulWidget {
+  const SubApp({Key key}) : super(key: key);
+
+  @override
+  _SubAppState createState() => _SubAppState();
+}
+
+class _SubAppState extends State<SubApp> {
+  String receiveData = 'null';
+
+  @override
+  void initState() {
+    super.initState();
+    SubScreenPlugin.viceStream.listen((event) {
+      setState(() {
+        receiveData = event.arguments.toString();
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('副屏'),
+        ),
+        body: Container(
+          color: Colors.yellowAccent.withAlpha(50),
+          child: Center(
+            child: Text('接收到的主屏数据为：$receiveData'),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Text('发送数据给主屏'),
+          onPressed: () {
+            final randomData = Random().nextInt(100).toString();
+            SubScreenPlugin.sendMsgToViceScreen("text",
+                params: {"num": randomData});
           },
         ),
       ),

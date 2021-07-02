@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <type id="android" />
+  </component>
   <component name="ProjectType">
     <option name="id" value="io.flutter" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="flutter_subscreen_plugin_example_android" />
+      </set>
+    </option>
   </component>
 </project>

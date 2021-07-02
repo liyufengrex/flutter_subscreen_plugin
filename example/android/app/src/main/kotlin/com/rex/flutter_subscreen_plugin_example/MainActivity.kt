@@ -9,16 +9,7 @@ class MainActivity: FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initSubScreen()
-    }
-
-    //初始化副屏
-    private fun initSubScreen() {
-        flutterEngine?.plugins?.get(FlutterSubscreenPlugin::class.java)?.let { plugin ->
-            val subScreenPlugin = plugin as FlutterSubscreenPlugin
-            val subScreenProvider = FlutterSubScreenProvider()
-            subScreenProvider.configSecondDisplay(subScreenPlugin, context)
-        }
+        FlutterSubScreenProvider.initSubScreen(context, flutterEngine)
     }
 
 }

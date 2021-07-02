@@ -8,7 +8,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** FlutterSubscreenPlugin */
 class FlutterSubscreenPlugin: FlutterPlugin, MethodCallHandler {
@@ -18,6 +17,11 @@ class FlutterSubscreenPlugin: FlutterPlugin, MethodCallHandler {
   companion object {
     private const val mainChannelName = "screen_plugin_main_channel"
     private const val subChannelName = "screen_plugin_sub_channel"
+
+    //主屏路由
+    const val mainRouter = "main"
+    //副屏路由
+    const val subMainRouter = "subMain"
   }
 
   fun onCreateViceChannel(dartExecutor: DartExecutor) {
@@ -34,7 +38,7 @@ class FlutterSubscreenPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    //主屏通过mainchannel将事件和参数传递给副屏subChannel
+    //主屏通过mainChannel将事件和参数传递给副屏subChannel
     if (subChannel != null) {
       subChannel.invokeMethod(call.method, call.arguments)
     }
