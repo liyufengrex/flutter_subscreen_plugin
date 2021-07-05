@@ -1,16 +1,19 @@
 package com.rex.flutter_subscreen_plugin
 
 import androidx.annotation.NonNull
+import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.dart.DartExecutor
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** FlutterSubscreenPlugin */
-class FlutterSubscreenPlugin: FlutterPlugin, MethodCallHandler {
+class FlutterSubscreenPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   private lateinit var mainChannel : MethodChannel
   private lateinit var subChannel : MethodChannel
 
@@ -46,5 +49,29 @@ class FlutterSubscreenPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     mainChannel.setMethodCallHandler(null)
+  }
+
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    //your plugin is now attached to an Activity
+    //初始化副屏
+    FlutterSubScreenProvider.configSecondDisplay(this, binding.activity)
+  }
+
+  override fun onDetachedFromActivityForConfigChanges() {
+    //the Activity your plugin was attached to was
+    // destroyed to change configuration.
+    // This call will be followed by onReattachedToActivityForConfigChanges().
+    //暂无处理
+  }
+
+  override fun onReattachedToActivityForConfigChanges(p0: ActivityPluginBinding) {
+    //your plugin is now attached to a new Activity
+    // after a configuration change.
+    //暂无处理
+  }
+
+  override fun onDetachedFromActivity() {
+    //your plugin is no longer associated with an Activity.
+    //暂无处理
   }
 }

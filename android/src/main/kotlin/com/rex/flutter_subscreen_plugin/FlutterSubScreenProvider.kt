@@ -3,8 +3,6 @@ package com.rex.flutter_subscreen_plugin
 import android.content.Context
 import android.hardware.display.DisplayManager
 import android.os.Build
-import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.engine.FlutterEngine
 
 /**
  * @Description:    描述
@@ -32,14 +30,6 @@ class FlutterSubScreenProvider {
             } catch (e: Throwable) {
                 println(e.message)
                 e.printStackTrace()
-            }
-        }
-
-        ///初始化副屏
-        fun initSubScreen(context: Context, flutterEngine: FlutterEngine?) {
-            flutterEngine?.plugins?.get(FlutterSubscreenPlugin::class.java)?.let { plugin ->
-                val subScreenPlugin = plugin as FlutterSubscreenPlugin
-                configSecondDisplay(subScreenPlugin, context)
             }
         }
     }
