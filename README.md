@@ -11,23 +11,8 @@ dependencies:
     sdk: flutter
   flutter_subscreen_plugin: ^0.0.1
 ```
-### 注意：
-使用该插件，需要在各自 flutter-application 的 android 目录下找到 MainActivity，在 Activity 的 onCreate 方法中添加副屏的初始化方法，如下：
-```
-import android.os.Bundle
-import io.flutter.embedding.android.FlutterActivity
-import com.rex.flutter_subscreen_plugin.FlutterSubScreenProvider
+### 使用方法：
 
-class MainActivity: FlutterActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-	//副屏初始化
-        FlutterSubScreenProvider.initSubScreen(context, flutterEngine)
-    }
-}
-```
-
-完成以上前置工作，就可以开始使用插件能力了。
 使用flutter进行主副屏的绘制，以及使用封装能力进行主副屏交互通信：
 
 #### 1. 在main入口区分主副屏：
