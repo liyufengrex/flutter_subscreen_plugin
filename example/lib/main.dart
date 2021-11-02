@@ -109,7 +109,7 @@ class _SubAppState extends State<SubApp> {
           child: Text('发送数据给主屏'),
           onPressed: () {
             final randomData = Random().nextInt(100).toString();
-            SubScreenPlugin.sendMsgToViceScreen("text",
+            SubScreenPlugin.sendMsgToMainScreen("text",
                 params: {"num": randomData});
           },
         ),
