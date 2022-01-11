@@ -7,9 +7,7 @@
 在pubspec.yaml文件中进行引用：
 ```
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_subscreen_plugin
+  flutter_subscreen_plugin: ^1.0.0
 ```
 ### 使用方法：
 
