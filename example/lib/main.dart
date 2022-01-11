@@ -2,8 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_subscreen_plugin/sub_screen_plugin.dart';
+import 'package:flutter_subscreen_plugin/flutter_subscreen_plugin.dart';
 
 void main() {
   var defaultRouteName = window.defaultRouteName;

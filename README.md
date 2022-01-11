@@ -9,7 +9,7 @@
 dependencies:
   flutter:
     sdk: flutter
-  flutter_subscreen_plugin: ^0.0.1
+  flutter_subscreen_plugin
 ```
 ### 使用方法：
 
@@ -48,4 +48,25 @@ SubScreenPlugin.viceStream.listen((event) {
     });
 ```
 
-##### #完整样例可参照插件中的example
+#### 4. 提供方法：获取当前设备环境是否支持双屏
+```
+SubScreenPlugin.isMultipleScreen((result) {
+      print("是否支持双屏：$result");
+    });
+```
+
+#### 5. 支持使用 res - value 文件进行品牌过滤（下面的示例表示，华为荣耀的设备不开启双屏）
+```
+android -> res -> values -> attrs.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filterBrands">
+       <item>huawei</item>-->
+       <item>honor</item>-->
+    </string-array>
+</resources>
+```
+
+
+> 以上使用方式，完整样例可参照插件中的example
