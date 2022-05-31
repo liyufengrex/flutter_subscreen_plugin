@@ -53,17 +53,14 @@ SubScreenPlugin.isMultipleScreen((result) {
     });
 ```
 
-#### 5. 支持使用 res - value 文件进行品牌过滤（下面的示例表示，华为荣耀的设备不开启双屏）
+#### 5. 支持对副屏engine进行三方插件扩展
 ```
-android -> res -> values -> attrs.xml 
+android -> mainActivity -> onCreate 方法添加 
 
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="filterBrands">
-       <item>huawei</item>-->
-       <item>honor</item>-->
-    </string-array>
-</resources>
+FlutterSubscreenPlugin.tripPlugins = arrayListOf(...具体的三方库名...)
+例如： 
+FlutterSubscreenPlugin.tripPlugins = arrayListOf(VideoPlayerPlugin())
+//VideoPlayerPlugin由video-player三方插件提供
 ```
 
 

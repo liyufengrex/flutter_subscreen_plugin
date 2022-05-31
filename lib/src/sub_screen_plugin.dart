@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 ///封装方法用于主副屏交互
-class SubScreenPlugin {
+abstract class SubScreenPlugin {
   static const _mainChannelName = 'screen_plugin_main_channel';
   static const _subChannelName = 'screen_plugin_sub_channel';
 
@@ -38,13 +38,11 @@ class SubScreenPlugin {
   static Future<dynamic> _onSubChannelMethodHandler(MethodCall call) async {
     //副屏channel 每接收到一个事件都放进去流里, 由外部监听
     _subStreamController?.sink.add(call);
-    return "success";
   }
 
   static Future<dynamic> _onMainChannelMethodHandler(MethodCall call) async {
     //主屏channel 每接收到一个事件都放进去流里, 由外部监听
     _mainStreamController?.sink.add(call);
-    return "success";
   }
 
   ///返回支付支持双屏

@@ -18,27 +18,24 @@ import io.flutter.embedding.engine.dart.DartExecutor
  */
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class FlutterSubScreenPresentation(outerContext: Context?, display: Display?) :
+class FlutterSubScreenPresentation(
+    outerContext: Context?,
+    display: Display?,
+    engine: FlutterEngine
+) :
     Presentation(outerContext, display) {
 
-    lateinit var flutterEngine: FlutterEngine
+    var flutterEngine: FlutterEngine = engine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val engine = FlutterEngine(context)
-        flutterEngine = engine
-
-        //指定初始化路由
-        flutterEngine.navigationChannel.setInitialRoute(FlutterSubscreenPlugin.subMainRouter)
-        flutterEngine.dartExecutor.executeDartEntrypoint(
-            DartExecutor.DartEntrypoint(
-                FlutterInjector.instance().flutterLoader().findAppBundlePath(),
-                FlutterSubscreenPlugin.mainRouter
-            )
-        )
         setContentView(R.layout.flutter_presentation_view)
         val flutterView: FlutterView = findViewById(R.id.flutter_presentation_view)
         flutterView.attachToFlutterEngine(flutterEngine)
+    }
 
+    override fun show() {
+        super.show()
         // 一定要调用 不然页面会卡死不更新
         flutterEngine.lifecycleChannel.appIsResumed()
     }
