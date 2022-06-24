@@ -9,6 +9,7 @@ import android.view.Display
 import androidx.annotation.RequiresApi
 import io.flutter.embedding.engine.FlutterEngine
 import android.media.MediaRouter.SimpleCallback
+import android.view.WindowManager
 import io.flutter.FlutterInjector
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.dart.DartExecutor
@@ -157,6 +158,11 @@ class FlutterSubScreenProvider private constructor() {
             if (display != null) {
                 try {
                     presentation = FlutterSubScreenPresentation(context, display, engine)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        presentation?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
+                    } else {
+                        presentation?.window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                    }
                     presentation?.show()
                 } catch (e: Throwable) {
                     println(e.message)
