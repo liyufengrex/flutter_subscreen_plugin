@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="filterBrands">
-<!--        <item>huawei</item>-->
-<!--        <item>honor</item>-->
-    </string-array>
+    <!-- 是否在初始化时自动显示副屏 -->
+    <bool name="autoShowSubScreenWhenInit">true</bool>
 </resources>

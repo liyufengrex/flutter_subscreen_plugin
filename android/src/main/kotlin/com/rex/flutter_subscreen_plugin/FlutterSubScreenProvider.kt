@@ -9,11 +9,10 @@ import android.view.Display
 import androidx.annotation.RequiresApi
 import io.flutter.embedding.engine.FlutterEngine
 import android.media.MediaRouter.SimpleCallback
+import android.provider.Settings
 import android.view.WindowManager
 import io.flutter.FlutterInjector
-import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.dart.DartExecutor
-import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
 
 /**
@@ -49,11 +48,7 @@ class FlutterSubScreenProvider private constructor() {
             info: MediaRouter.RouteInfo
         ) {
             ///无可用扩展屏幕
-            presentation?.let {
-                if (it.isShowing) {
-                    it.dismiss()
-                }
-            }
+            closeSubDisplay()
         }
 
         @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -70,7 +65,7 @@ class FlutterSubScreenProvider private constructor() {
      * 执行初始化，由外部调用
      */
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun doInit(activity: Activity) {
+    fun doInit(activity: Activity, showSubScreen: Boolean) {
         currentActivity = activity
         mediaRouter = activity.applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
 
@@ -78,7 +73,9 @@ class FlutterSubScreenProvider private constructor() {
 
         //媒体设备监听
         mediaRouter?.addCallback(ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback)
-        showSubDisplay()
+        if (showSubScreen) {
+            showSubDisplay()
+        }
     }
 
     fun onDispose() {
@@ -140,11 +137,37 @@ class FlutterSubScreenProvider private constructor() {
      * show副屏
      */
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun showSubDisplay() {
+    fun showSubDisplay() {
+        //先把之前的隐藏
+        closeSubDisplay()
         currentActivity?.let {
             if (!it.isFinishing) {
                 configSecondDisplay(it)
             }
+        }
+    }
+
+    /**
+     *  hide副屏
+     */
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    fun closeSubDisplay() {
+        presentation?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+        presentation = null
+    }
+
+    /**
+     * 校验是否具备 overlay 权限
+     */
+    fun checkOverlayPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= 23 && currentActivity != null) {
+            Settings.canDrawOverlays(currentActivity)
+        } else {
+            true
         }
     }
 
@@ -158,7 +181,7 @@ class FlutterSubScreenProvider private constructor() {
             if (display != null) {
                 try {
                     presentation = FlutterSubScreenPresentation(context, display, engine)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && checkOverlayPermission()) {
                         presentation?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
                     } else {
                         presentation?.window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)

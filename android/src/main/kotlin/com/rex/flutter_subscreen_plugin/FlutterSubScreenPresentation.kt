@@ -6,10 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Display
 import androidx.annotation.RequiresApi
-import io.flutter.FlutterInjector
 import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.dart.DartExecutor
 
 /**
  * @Description:    副屏dialog

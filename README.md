@@ -53,7 +53,34 @@ SubScreenPlugin.isMultipleScreen((result) {
     });
 ```
 
-#### 5. 支持对副屏engine进行三方插件扩展
+#### 5. 提供方法：判断当前应用是否具备 overlay 窗口权限
+```
+SubScreenPlugin.checkOverlayPermission((result) {
+      print("是否支持 overlay：$result");
+    });
+```
+
+#### 6. 提供方法：申请 overlay 窗口权限，可将副屏设置为持久窗口
+```
+SubScreenPlugin.requestOverlayPermission();
+```
+
+#### 7. 提供方法：开启，关闭副屏
+```
+SubScreenPlugin.doubleScreenShow();     //开启
+SubScreenPlugin.doubleScreenCancel();   //关闭
+```
+
+#### 7. 支付设置初始化完成后直接显示副屏
+```
+android -> values -> attrs.xml 添加配置
+
+<!-- 是否在初始化时自动显示副屏 -->
+<bool name="autoShowSubScreenWhenInit">true</bool> 
+```
+
+
+#### 8. 支持对副屏engine进行三方插件扩展
 ```
 android -> mainActivity -> onCreate 方法添加 
 

@@ -16,7 +16,7 @@ void main() {
 //主屏ui
 void defaultMain() {
   // runApp(WebViewExample());
-  runApp(MainApp());
+  runApp(MaterialApp(home: MainApp(),));
 }
 
 //副屏ui

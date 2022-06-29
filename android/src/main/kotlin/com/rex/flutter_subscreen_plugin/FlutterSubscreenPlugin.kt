@@ -1,7 +1,10 @@
 package com.rex.flutter_subscreen_plugin
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.provider.Settings
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import io.flutter.embedding.engine.dart.DartExecutor
@@ -49,13 +52,34 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         //提供方法查询是否支持双屏
-        if (call.method == "supportDoubleScreen") {
-            val isMultipleScreen = FlutterSubScreenProvider.instance.supportViceScreen()
-            result.success(isMultipleScreen)
-            return
+        when (call.method) {
+            Constant.METHOD_SUPPORT_DOUBLE_SCREEN -> {
+                val isMultipleScreen = FlutterSubScreenProvider.instance.supportViceScreen()
+                result.success(isMultipleScreen)
+            }
+            Constant.METHOD_CHECK_OVERLAY_PERMISSION -> {
+                //校验是否具有 overlay 权限
+                result.success(FlutterSubScreenProvider.instance.checkOverlayPermission())
+            }
+            Constant.METHOD_REQUEST_OVERLAY_PERMISSION -> {
+                //申请 overlay 权限
+                if (Build.VERSION.SDK_INT >= 23) {
+                    context.startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                }
+            }
+            Constant.METHOD_DOUBLE_SCREEN_SHOW -> {
+                //显示副屏
+                FlutterSubScreenProvider.instance.showSubDisplay()
+            }
+            Constant.METHOD_DOUBLE_SCREEN_CANCEL -> {
+                //关闭副屏
+                FlutterSubScreenProvider.instance.closeSubDisplay()
+            }
+            else -> {
+                //主屏通过mainChannel将事件和参数传递给副屏subChannel
+                subChannel.invokeMethod(call.method, call.arguments)
+            }
         }
-        //主屏通过mainChannel将事件和参数传递给副屏subChannel
-        subChannel.invokeMethod(call.method, call.arguments)
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
@@ -66,7 +90,9 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         //your plugin is now attached to an Activity
-        FlutterSubScreenProvider.instance.doInit(binding.activity)
+        val autoShowSubScreenWhenInit =
+            context.resources.getBoolean(R.bool.autoShowSubScreenWhenInit)
+        FlutterSubScreenProvider.instance.doInit(binding.activity, autoShowSubScreenWhenInit)
         //将副屏事件进行分发
         FlutterSubScreenProvider.instance.flutterEngine?.let { engine ->
             onCreateViceChannel(engine.dartExecutor)

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import 'constant.dart';
+
 ///封装方法用于主副屏交互
 abstract class SubScreenPlugin {
   static const _mainChannelName = 'screen_plugin_main_channel';
@@ -47,7 +49,27 @@ abstract class SubScreenPlugin {
 
   ///返回支付支持双屏
   static Future<bool> get isMultipleScreen async {
-    return await _mainChannel.invokeMethod("supportDoubleScreen");
+    return await _mainChannel.invokeMethod(Constants.supportDoubleScreen);
+  }
+
+  ///校验overlay窗口权限
+  static Future<bool> get checkOverlayPermission async {
+    return await _mainChannel.invokeMethod(Constants.checkOverlayPermission);
+  }
+
+  ///请求overlay窗口权限
+  static void requestOverlayPermission() {
+    _mainChannel.invokeMethod(Constants.requestOverlayPermission);
+  }
+
+  ///打开副屏
+  static void doubleScreenShow() {
+    _mainChannel.invokeMethod(Constants.doubleScreenShow);
+  }
+
+  ///关闭副屏
+  static void doubleScreenCancel() {
+    _mainChannel.invokeMethod(Constants.doubleScreenCancel);
   }
 
   ///给主屏幕调用，发送事件体给副屏
