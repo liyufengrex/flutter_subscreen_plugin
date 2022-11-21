@@ -28,10 +28,16 @@ class FlutterSubScreenProvider private constructor() {
     var flutterEngine: FlutterEngine? = null
     var presentation: FlutterSubScreenPresentation? = null
 
+    private var iCallback: IFlutterSubCallback? = null;
+
     companion object {
         val instance: FlutterSubScreenProvider by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             FlutterSubScreenProvider()
         }
+    }
+
+    fun setFlutterSubCallback(callback: IFlutterSubCallback) {
+        iCallback = callback
     }
 
     private val mMediaRouterCallback: SimpleCallback = object : SimpleCallback() {
@@ -69,8 +75,6 @@ class FlutterSubScreenProvider private constructor() {
         currentActivity = activity
         mediaRouter = activity.applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
 
-        doInitEngine()
-
         //媒体设备监听
         mediaRouter?.addCallback(ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback)
         if (showSubScreen) {
@@ -91,6 +95,10 @@ class FlutterSubScreenProvider private constructor() {
      */
     private fun doInitEngine() {
         currentActivity?.let { activity ->
+            if (flutterEngine != null) {
+                //保证只初始化一次副屏 engine
+                return
+            }
             //初始化副屏
             flutterEngine = FlutterEngine(activity)
             //设置副屏engine需要引入的三方插件库
@@ -109,6 +117,7 @@ class FlutterSubScreenProvider private constructor() {
                     FlutterSubscreenPlugin.mainRouter
                 )
             )
+            iCallback?.onSubFlutterEngineCreated()
         }
     }
 
@@ -176,9 +185,10 @@ class FlutterSubScreenProvider private constructor() {
      */
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun configSecondDisplay(context: Context) {
-        flutterEngine?.let { engine ->
-            val display = getPresentationDisplay()
-            if (display != null) {
+        val display = getPresentationDisplay()
+        if (display != null) {
+            doInitEngine()
+            flutterEngine?.let { engine ->
                 try {
                     presentation = FlutterSubScreenPresentation(context, display, engine)
                     if (checkOverlayPermission()) {
@@ -196,5 +206,4 @@ class FlutterSubScreenProvider private constructor() {
             }
         }
     }
-
 }

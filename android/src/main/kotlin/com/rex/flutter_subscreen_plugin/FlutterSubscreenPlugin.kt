@@ -93,10 +93,15 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         val autoShowSubScreenWhenInit =
             context.resources.getBoolean(R.bool.autoShowSubScreenWhenInit)
         FlutterSubScreenProvider.instance.doInit(binding.activity, autoShowSubScreenWhenInit)
-        //将副屏事件进行分发
-        FlutterSubScreenProvider.instance.flutterEngine?.let { engine ->
-            onCreateViceChannel(engine.dartExecutor)
-        }
+
+        FlutterSubScreenProvider.instance.setFlutterSubCallback(object : IFlutterSubCallback {
+            override fun onSubFlutterEngineCreated() {
+                //副屏 engine 初始化后，将副屏事件进行分发
+                FlutterSubScreenProvider.instance.flutterEngine?.let { engine ->
+                    onCreateViceChannel(engine.dartExecutor)
+                }
+            }
+        })
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
