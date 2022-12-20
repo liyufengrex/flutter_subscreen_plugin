@@ -1,6 +1,6 @@
 name: flutter_subscreen_plugin
 description: The plug-in supports double screen Android device, and uses flutter to draw the main and secondary screens to realize communication and interaction between the two screens
-version: 1.0.4
+version: 1.0.7
 author: lixiaohong<liyufengisme@gmail.com>
 homepage: https://github.com/liyufengrex/flutter_subscreen_plugin
 

@@ -64,7 +64,9 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
             Constant.METHOD_REQUEST_OVERLAY_PERMISSION -> {
                 //申请 overlay 权限
                 if (Build.VERSION.SDK_INT >= 23) {
-                    context.startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
                 }
             }
             Constant.METHOD_DOUBLE_SCREEN_SHOW -> {
