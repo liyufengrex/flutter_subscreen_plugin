@@ -21,6 +21,8 @@ class _SubAppState extends State<SubApp> {
         receiveData = event.arguments.toString();
       });
     });
+
+    Future.delayed(const Duration(seconds: 5), sendMsgToMainScreen);
   }
 
   void sendMsgToMainScreen() {

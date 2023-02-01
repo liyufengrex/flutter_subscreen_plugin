@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
-import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import io.flutter.embedding.engine.dart.DartExecutor
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -92,10 +90,6 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         //your plugin is now attached to an Activity
-        val autoShowSubScreenWhenInit =
-            context.resources.getBoolean(R.bool.autoShowSubScreenWhenInit)
-        FlutterSubScreenProvider.instance.doInit(binding.activity, autoShowSubScreenWhenInit)
-
         FlutterSubScreenProvider.instance.setFlutterSubCallback(object : IFlutterSubCallback {
             override fun onSubFlutterEngineCreated() {
                 //副屏 engine 初始化后，将副屏事件进行分发
@@ -104,6 +98,9 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 }
             }
         })
+        val autoShowSubScreenWhenInit =
+            context.resources.getBoolean(R.bool.autoShowSubScreenWhenInit)
+        FlutterSubScreenProvider.instance.doInit(binding.activity, autoShowSubScreenWhenInit)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
