@@ -28,7 +28,7 @@ class FlutterSubScreenProvider private constructor() {
     var flutterEngine: FlutterEngine? = null
     var presentation: FlutterSubScreenPresentation? = null
 
-    private var iCallback: IFlutterSubCallback? = null;
+    private var iCallback: IFlutterSubCallback? = null
 
     companion object {
         val instance: FlutterSubScreenProvider by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -87,6 +87,12 @@ class FlutterSubScreenProvider private constructor() {
             mediaRouter?.removeCallback(mMediaRouterCallback)
         } catch (e: Exception) {
 
+        } finally {
+            flutterEngine = null
+            mediaRouter = null
+            iCallback = null
+            presentation = null
+            currentActivity = null
         }
     }
 
