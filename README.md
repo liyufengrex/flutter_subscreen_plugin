@@ -84,10 +84,15 @@ android -> values -> attrs.xml 添加配置
 ```
 android -> mainActivity -> onCreate 方法添加 
 
-FlutterSubscreenPlugin.tripPlugins = arrayListOf(...具体的三方库名...)
-例如： 
-FlutterSubscreenPlugin.tripPlugins = arrayListOf(VideoPlayerPlugin())
-//VideoPlayerPlugin由video-player三方插件提供
+// 例如：在副屏引入了 camera: ^lastedVersion , 则需要在 onCreate super 方法后加入如下语句进行注册
+
+FlutterSubscreenPlugin.registerThirdPlugins(
+    arrayListOf(
+        io.flutter.plugins.camera.CameraPlugin(), // 对应的三方库名
+    ),
+    this.flutterEngine!!.plugins
+)
+
 ```
 
 

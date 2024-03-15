@@ -11,6 +11,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import android.media.MediaRouter.SimpleCallback
 import android.provider.Settings
 import android.view.WindowManager
+import com.rex.flutter_subscreen_plugin.FlutterSubscreenPlugin.Companion.addThirdPlugins
 import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.dart.DartExecutor
 
@@ -107,14 +108,7 @@ class FlutterSubScreenProvider private constructor() {
             }
             //初始化副屏
             flutterEngine = FlutterEngine(activity)
-            //设置副屏engine需要引入的三方插件库
-            FlutterSubscreenPlugin.tripPlugins?.let {
-                if (it.isNullOrEmpty()) {
-                    it.forEach { plugin ->
-                        flutterEngine?.plugins?.add(plugin)
-                    }
-                }
-            }
+            addThirdPlugins()
             //指定初始化路由
             flutterEngine?.navigationChannel?.setInitialRoute(FlutterSubscreenPlugin.subMainRouter)
             flutterEngine?.dartExecutor?.executeDartEntrypoint(
