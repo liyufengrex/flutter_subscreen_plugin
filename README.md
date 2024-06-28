@@ -2,6 +2,9 @@
 
 该插件支持双屏安卓设备，主副屏均使用 flutter 进行开发，提供方法实现双屏间的通信交互。
 
+![image](https://github.com/liyufengrex/flutter_subscreen_plugin/assets/48038749/df1cca6a-4596-46bf-b40f-11f83331770a)
+
+
 ### 使用方式
 
 在pubspec.yaml文件中进行引用：
@@ -97,3 +100,5 @@ FlutterSubscreenPlugin.registerThirdPlugins(
 
 
 > 以上使用方式，完整样例可参照插件中的example
+
+> [点击查看原理文档](https://juejin.cn/post/7007678468020240414)
