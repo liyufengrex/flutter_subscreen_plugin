@@ -98,6 +98,8 @@ FlutterSubscreenPlugin.registerThirdPlugins(
 
 ```
 
+#### 架构调用关系如下：
+![image](https://github.com/liyufengrex/flutter_subscreen_plugin/assets/48038749/c01ad8a8-49a9-4ecf-bbd3-76287caf6350)
 
 > 以上使用方式，完整样例可参照插件中的example
 
