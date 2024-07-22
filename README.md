@@ -1,6 +1,6 @@
 ## Flutter 双屏支持插件
 
-该插件支持双屏安卓设备，主副屏均使用 flutter 进行开发，通过 channel 双引擎实现主副屏通信交互。
+本库方案统一技术栈，主副屏都使用 flutter 进行开发，降低开发及后期维护成本，通过创新的双引擎通信机制，确保了主副屏之间的高效交互。
 
 ![image](https://github.com/liyufengrex/flutter_subscreen_plugin/assets/48038749/df1cca6a-4596-46bf-b40f-11f83331770a)
 
