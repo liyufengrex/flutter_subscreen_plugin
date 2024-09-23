@@ -194,7 +194,7 @@ class FlutterSubScreenProvider private constructor() {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                         if (checkOverlayPermission()) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                presentation?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY - 1)
+                                presentation?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
                             } else {
                                 presentation?.window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
                             }
