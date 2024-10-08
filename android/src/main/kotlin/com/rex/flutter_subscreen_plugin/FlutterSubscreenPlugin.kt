@@ -22,7 +22,7 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
     private lateinit var context: Context
     private lateinit var mainChannel: MethodChannel
-    private lateinit var subChannel: MethodChannel
+    private var subChannel: MethodChannel? = null
 
     companion object {
         private const val mainChannelName = "screen_plugin_main_channel"
@@ -112,7 +112,7 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     private fun onCreateViceChannel(dartExecutor: DartExecutor) {
         subChannel = MethodChannel(dartExecutor, subChannelName)
         //将副屏事件中转给主屏的engine
-        subChannel.setMethodCallHandler { call, _ ->
+        subChannel?.setMethodCallHandler { call, _ ->
             mainChannel.invokeMethod(call.method, call.arguments)
         }
     }
@@ -127,7 +127,7 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingCache = null
         mainChannel.setMethodCallHandler(null)
-        subChannel.setMethodCallHandler(null)
+        subChannel?.setMethodCallHandler(null)
         try {
             tripPlugins?.forEach {
                 it.onDetachedFromEngine(binding)
@@ -172,7 +172,7 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
             else -> {
                 //主屏通过mainChannel将事件和参数传递给副屏subChannel
-                subChannel.invokeMethod(call.method, call.arguments)
+                subChannel?.invokeMethod(call.method, call.arguments)
             }
         }
     }
