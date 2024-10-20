@@ -1,16 +1,32 @@
-## Flutter 双屏支持插件
+## Flutter 双屏通信引擎
 
-本库方案统一技术栈，主副屏都使用 flutter 进行开发，降低开发及后期维护成本，通过创新的双引擎通信机制，确保了主副屏之间的高效交互。
+![flutter_subscreen_plugin_icon](https://github.com/user-attachments/assets/5de5ab17-c9d6-4686-852e-4874a4810892)
+
+### 引言
+
+支持收银应用的**双屏交互场景**，如：主屏（操作屏）+ 副屏（客显屏）
+
+支持双屏安卓设备，主副屏均使用 flutter 进行开发，提供方法实现双屏间的通信交互。
+
+<br/>
+
+### 新老方案对比
+
+新方案统一技术栈，主副屏都使用 flutter 进行开发，降低开发及后期维护成本，通过创新的双引擎通信机制，确保了主副屏之间的高效交互。
 
 ![image](https://github.com/liyufengrex/flutter_subscreen_plugin/assets/48038749/df1cca6a-4596-46bf-b40f-11f83331770a)
 
-
-### 使用方式
+### 接入依赖
 
 在pubspec.yaml文件中进行引用：
-```
+
+<br/>
+
+```dart
 dependencies:
-  flutter_subscreen_plugin: ^1.0.0
+  flutter:
+    sdk: flutter
+  flutter_subscreen_plugin: ^1.0.8
 ```
 ### 使用方法：
 
@@ -98,9 +114,26 @@ FlutterSubscreenPlugin.registerThirdPlugins(
 
 ```
 
-#### 架构调用关系如下：
+### 整体调用关系架构如下：
 ![image](https://github.com/liyufengrex/flutter_subscreen_plugin/assets/48038749/c01ad8a8-49a9-4ecf-bbd3-76287caf6350)
 
+### 运行效果图
+
+完成上述步骤，简单的demo就做好了，如下是demo在实体设备的运行效果图：
+
+![111](https://github.com/user-attachments/assets/272cb346-1000-49c5-94c7-dd4d6e8a9bdd)
+（主屏）
+
+![112](https://github.com/user-attachments/assets/42fd0fe4-16f1-473b-aef7-81c3be92aa90)
+（副屏）
+
+![113](https://github.com/user-attachments/assets/fad949a8-fb39-42be-8446-196208469ee2)
+（点击按键，接收主屏数据的副屏）
+
+<br/>
+
 > 以上使用方式，完整样例可参照插件中的example
+
+<br/>
 
 > [点击查看原理文档](https://juejin.cn/post/7007678468020240414)
