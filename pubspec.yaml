@@ -1,6 +1,6 @@
 name: flutter_subscreen_plugin
 description: 支持双屏安卓设备，主副屏均使用 flutter 进行开发，提供双屏通信能力
-version: 1.3.2+4
+version: 1.3.2+5
 author: lixiaohong<liyufengisme@gmail.com>
 homepage: https://github.com/liyufengrex/flutter_subscreen_plugin
 
